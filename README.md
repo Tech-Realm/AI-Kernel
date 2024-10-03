@@ -31,7 +31,7 @@ Here’s an overview of the project structure:
 
 ### 1. Build and Install the AI Kernel
 
-To build and install the AI kernel driver, follow the steps in the [AI Kernel Driver README](Max_test/README.md). This will guide you through the compilation and installation of the kernel module.
+To build and install the AI kernel driver, follow the steps in the [AI Kernel Driver README](Max_test/readme.md). This will guide you through the compilation and installation of the kernel module.
 
 ### 2. Run Kernel Driver Tests
 
