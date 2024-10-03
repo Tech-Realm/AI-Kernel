@@ -30,9 +30,9 @@
 
 2. Compile the program using GCC:
 
-   
+   ```bash
    gcc -Wall -pthread -o ai_driver_test ai_driver_test.c -lm
-   
+   ```
 
 3. If successful, an executable named `ai_driver_test` will be created.
 
