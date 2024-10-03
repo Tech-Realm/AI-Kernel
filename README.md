@@ -5,6 +5,57 @@ Welcome to the **World's First AI Kernel** project! This repository contains the
 
 The project includes automated tests that stress-test the kernel across all available CPU cores, ensuring robust performance.
 
+
+## Getting Started
+
+### Installation
+
+To build and install the AI kernel driver, follow the steps in the [AI Kernel Driver README](src/README.md). This README will guide you through the compilation and installation of the kernel module. Below are quick steps for running the automated installation script, along with explanations for each command:
+
+1. First, navigate to the `src` directory where the necessary files for installation are located by running:
+
+   ```bash
+   cd src
+   ```
+
+   - *Explanation: The `cd` (change directory) command moves your terminal session into the `src` folder, which contains the installation files and scripts needed to build the kernel driver.*
+
+2. Next, make the `automated_testing.sh` script executable:
+
+   ```bash
+   chmod +x automated_testing.sh
+   ```
+
+   - *Explanation: The `chmod +x` command changes the file permission of `automated_testing.sh` to make it executable. Without this step, you wouldn’t be able to run the script directly from the terminal.*
+
+3. Finally, execute the installation script:
+
+   ```bash
+   ./automated_testing.sh
+   ```
+
+   - *Explanation: The `./` tells the terminal to run the `automated_testing.sh` script from the current directory. The script will automatically handle the build and installation process for the AI kernel driver, compiling the necessary components and installing them in the appropriate locations.*
+
+Following these steps will simplify the process of building and installing the AI kernel driver. For more detailed guidance, please refer to the [AI Kernel Driver README](src/README.md).
+
+## Thread Tests
+
+Once the AI kernel driver is installed, you can run tests to ensure it is working as expected. Navigate to the `Max_test/` directory and use the testing scripts. More details can be found in the [Testing README](Max_test/readme.md).
+
+### Run Individual Thread Tests
+
+To evaluate how the AI kernel performs under different computational loads, you can run thread tests. This involves testing individual threads or maxing out all CPU cores. Instructions are available in the [Thread Tests README](thread_tests/readme.md).
+
+### Max Test
+
+The **Max Test** pushes the AI kernel to its limits by running computations across all CPU cores. It ensures the kernel can handle heavy loads efficiently. Detailed instructions for running the Max Test are available in the [Max Test README](Max_test/README.md).
+
+### Automated Testing
+
+Automated testing scripts are available in the `ALL directories`. Use these scripts to run a full suite of tests that assess the kernel’s performance across various dimensions. 
+
+
+
 ## Repository Structure
 
 Here’s an overview of the project structure:
@@ -27,51 +78,6 @@ Here’s an overview of the project structure:
 ├── .gitattributes                 # Git configuration file
 ```
 
-## Getting Started
-
-### 1. Build and Install the AI Kernel
-
-To build and install the AI kernel driver, follow the steps in the [AI Kernel Driver README](Max_test/readme.md). This will guide you through the compilation and installation of the kernel module.
-
-### 2. Run Kernel Driver Tests
-
-Once the AI kernel driver is installed, you can run tests to ensure it is working as expected. Navigate to the `Max_test/tests/` directory and use the testing scripts. More details can be found in the [Testing README](Max_test/readme.md).
-
-### 3. Run Thread Tests
-
-To evaluate how the AI kernel performs under different computational loads, you can run thread tests. This involves testing individual threads or maxing out all CPU cores. Instructions are available in the [Thread Tests README](Max_test/thread_tests/readme.md).
-
-### 4. Max Test
-
-The **Max Test** pushes the AI kernel to its limits by running computations across all CPU cores. It ensures the kernel can handle heavy loads efficiently. Detailed instructions for running the Max Test are available in the [Max Test README](Max_test/README.md).
-
-### 5. Automated Testing
-
-Automated testing scripts are available in the `tests/` directory. Use these scripts to run a full suite of tests that assess the kernel’s performance across various dimensions. Follow the instructions in the [Automated Testing README](Max_test/tests/README.md).
-
-## Running Tests
-
-### To Run All Tests
-
-To run all available tests (kernel and thread tests), you can use the `run_tests.sh` script located in the `tests/` directory:
-
-```bash
-cd Max_test/tests
-./run_tests.sh
-```
-
-This will execute the tests across all CPU cores and log the results.
-
-### Thread Tests
-
-To test individual threads or run a multi-core stress test, use the `run_thread_tests.sh` script in the `thread_tests/` directory:
-
-```bash
-cd Max_test/thread_tests
-./run_thread_tests.sh
-```
-
-This script will execute tests designed to evaluate the performance of threads individually and across all CPU cores.
 
 ## Contributing
 
@@ -85,7 +91,7 @@ This project is licensed under the MIT License.
 
 ## Quick Links
 
-- [AI Kernel Driver README](Max_test/README.md)
-- [Automated Testing README](Max_test/tests/README.md)
-- [Thread Tests README](Max_test/thread_tests/readme.md)
+- [AI Kernel Driver README](src/README.md)
+- [Automated Testing README](Max_test/readme.md)
+- [Thread Tests README](thread_tests/readme.md)
 
