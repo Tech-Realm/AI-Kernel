@@ -14,7 +14,7 @@ These instructions will guide you through compiling, installing, and managing th
 5. [Step 4: Interact with the Device Node](#step-4-interact-with-the-device-node)
 6. [Step 5: Uninstall (Unload) the Kernel Module](#step-5-uninstall-unload-the-kernel-module)
 7. [Step 6: Clean Build Artifacts](#step-6-clean-build-artifacts)
-8. [Notes and Warnings](#notes-and-warnings)
+8. [Testing](#testing)
 
 ---
 
@@ -24,6 +24,59 @@ These instructions will guide you through compiling, installing, and managing th
 - **Root or Sudo Access**: Required for installing and removing kernel modules.
 - **Kernel Headers**: Ensure kernel headers matching your current kernel version are installed.
 - **Basic Knowledge**: Familiarity with compiling kernel modules and using `make`.
+- **Installation of `gcc-12`**: Make sure `gcc-12` is installed. You can install it by running:
+  
+  - **For Ubuntu/Debian**:
+    ```bash
+    sudo apt update
+    sudo apt install gcc-12 g++-12
+    ```
+
+  - **For Fedora/RHEL**:
+    ```bash
+    sudo dnf install gcc-12 g++-12
+    ```
+
+  Verify the installation:
+  ```bash
+  gcc --version
+  ```
+
+- **Installation of `make`**: Ensure `make` is installed, which is required for building kernel modules. Install it using:
+
+  - **For Ubuntu/Debian**:
+    ```bash
+    sudo apt install build-essential
+    ```
+
+  - **For Fedora/RHEL**:
+    ```bash
+    sudo dnf groupinstall "Development Tools"
+    ```
+
+  Verify the installation:
+  ```bash
+  make --version
+  ```
+
+- **Code modification for newer kernels**: If you are using a newer version of the Linux kernel, you need to modify the `class_create` function call in your code:
+
+  - **Original code** (causing the error):
+    ```c
+    ai_dev.class = class_create(THIS_MODULE, CLASS_NAME);
+    ```
+
+  - **Updated code** (for newer kernel versions):
+    ```c
+    ai_dev.class = class_create(CLASS_NAME);
+    ```
+
+  You can check your kernel version by running:
+  ```bash
+  uname -r
+  ```
+
+
 
 ---
 
