@@ -35,7 +35,7 @@ To build and install the AI kernel driver, follow the steps in the [AI Kernel Dr
 
 ### 2. Run Kernel Driver Tests
 
-Once the AI kernel driver is installed, you can run tests to ensure it is working as expected. Navigate to the `Max_test/tests/` directory and use the testing scripts. More details can be found in the [Testing README](Max_test/tests/readme.md).
+Once the AI kernel driver is installed, you can run tests to ensure it is working as expected. Navigate to the `Max_test/tests/` directory and use the testing scripts. More details can be found in the [Testing README](Max_test/readme.md).
 
 ### 3. Run Thread Tests
 
