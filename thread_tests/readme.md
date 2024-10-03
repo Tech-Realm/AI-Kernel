@@ -18,7 +18,7 @@ Before running this script, ensure that the following tools and libraries are in
 ## Files
 
 - **individual_thread_test.c**: The source code containing the individual thread test logic.
-- **compile_and_run.sh**: A Bash script to compile the C file and run the individual thread test, saving the output to a log file.
+- **run_thread_tests.sh**: A Bash script to compile the C file and run the individual thread test, saving the output to a log file.
 
 ## Compilation & Execution
 
@@ -31,4 +31,4 @@ To compile and run the test, execute the provided `compile_and_run.sh` script. T
 ### Running the Script
 
 ```bash
-./compile_and_run.sh
+./run_thread_tests.sh
