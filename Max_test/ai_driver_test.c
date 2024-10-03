@@ -10,6 +10,7 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
+#include <sys/sysinfo.h>
 
 // Define IOCTL commands
 #define AI_IOC_MAGIC 'a'
@@ -25,12 +26,6 @@ struct hw_config {
     unsigned int threshold;
 };
 
-// Number of threads per type
-#define NUM_THREADS 14  // Adjust based on your CPU cores
-
-// Computational workload parameters
-#define COMPUTATION_ITERATIONS 100000000  // Increase for more CPU load
-
 // Number of I/O iterations
 #define IO_ITERATIONS 10000
 
@@ -43,12 +38,29 @@ int ai_features_enabled = 0;
 // Mutex for synchronizing access to the device
 pthread_mutex_t device_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+// Dynamically get the number of CPU cores
+int get_num_cpu_cores() {
+    return sysconf(_SC_NPROCESSORS_ONLN);
+}
+
+// Dynamically adjust computation iterations based on system load
+unsigned long get_computation_iterations() {
+    struct sysinfo info;
+    if (sysinfo(&info) == 0) {
+        return 100000000 * info.loads[0] / 1000000;  // Adjust iterations based on load
+    }
+    return 100000000;  // Fallback to default
+}
+
 void* computation_thread(void* arg) {
     int thread_num = *((int*)arg);
 
+    // Get the computation iterations dynamically
+    unsigned long computation_iterations = get_computation_iterations();
+
     // Heavy computational task
     volatile double result = 0.0;
-    for (long i = 0; i < COMPUTATION_ITERATIONS; i++) {
+    for (long i = 0; i < computation_iterations; i++) {
         result += sin(i) * cos(i);
     }
 
@@ -160,11 +172,15 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    pthread_t threads[NUM_THREADS * 2];
-    int thread_args[NUM_THREADS * 2][2];  // Each thread gets an array of two integers
+    // Automatically determine number of threads based on CPU cores
+    int num_threads = get_num_cpu_cores();
+    printf("Number of threads: %d\n", num_threads);
+
+    pthread_t threads[num_threads * 2];
+    int thread_args[num_threads * 2][2];  // Each thread gets an array of two integers
 
     // Create computation threads
-    for (int i = 0; i < NUM_THREADS; i++) {
+    for (int i = 0; i < num_threads; i++) {
         thread_args[i][0] = i;  // Thread number
         if (pthread_create(&threads[i], NULL, computation_thread, &thread_args[i][0]) != 0) {
             perror("Failed to create computation thread");
@@ -174,10 +190,10 @@ int main(int argc, char *argv[]) {
     }
 
     // Create I/O threads
-    for (int i = 0; i < NUM_THREADS; i++) {
-        thread_args[NUM_THREADS + i][0] = i;     // Thread number
-        thread_args[NUM_THREADS + i][1] = fd;    // File descriptor
-        if (pthread_create(&threads[NUM_THREADS + i], NULL, io_thread, thread_args[NUM_THREADS + i]) != 0) {
+    for (int i = 0; i < num_threads; i++) {
+        thread_args[num_threads + i][0] = i;     // Thread number
+        thread_args[num_threads + i][1] = fd;    // File descriptor
+        if (pthread_create(&threads[num_threads + i], NULL, io_thread, thread_args[num_threads + i]) != 0) {
             perror("Failed to create I/O thread");
             close(fd);
             return EXIT_FAILURE;
@@ -185,7 +201,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Join threads
-    for (int i = 0; i < NUM_THREADS * 2; i++) {
+    for (int i = 0; i < num_threads * 2; i++) {
         pthread_join(threads[i], NULL);
     }
 
